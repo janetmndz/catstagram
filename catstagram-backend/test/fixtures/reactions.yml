@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  cat: one
+  location: one
+  type: 
+
+two:
+  cat: two
+  location: two
+  type: 
