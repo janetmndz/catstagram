@@ -4,9 +4,9 @@ c3 = Cat.create(name: "Sox")
 c4 = Cat.create(name: "Mr. Pickles")
 c5 = Cat.create(name: "Garry")
 
-l1 = Location.create(description: "dat catnip on york by teh wework doe", cat: c2)
-l2 = Location.create(description: "the old lady down by high street give free food if you meow x3...just don't scare the pidgeons away", cat: c1)
-l3 = Location.create(description: "81 prospect rooftop: prime sunbathing location", cat: c3)
+l1 = Location.create(description: "dat catnip on york by teh wework doe", cat: c2, picture: "https://placekitten.com/200/200")
+l2 = Location.create(description: "the old lady down by high street give free food if you meow x3...just don't scare the pidgeons away", cat: c1, picture: "https://placekitten.com/200/200")
+l3 = Location.create(description: "81 prospect rooftop: prime sunbathing location", cat: c3, picture: "https://placekitten.com/200/200")
 
 
 # Reactions: 💩, 😻, 🙀, 😼

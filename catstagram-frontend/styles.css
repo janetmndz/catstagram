@@ -1,0 +1,20 @@
+main{
+    display: none;
+}
+section#location-container {
+    border: 1px solid red;
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+#location-container>div {
+    border: 1px solid blue;
+    width: 25%;
+    min-width: 300px;
+    max-width: 400px;
+    max-height: 450px;
+    min-height: 350px;
+    padding: 10px 25px;
+}
