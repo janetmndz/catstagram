@@ -9,7 +9,7 @@ l2 = Location.create(description: "the old lady down by high street give free fo
 l3 = Location.create(description: "81 prospect rooftop: prime sunbathing location", cat: c3)
 
 
-# Ractions: 💩, 😻, 🙀, 😼
+# Reactions: 💩, 😻, 🙀, 😼
 Reaction.create(cat: c4, location: l3, emoji: "😻")
 Reaction.create(cat: c3, location: l1, emoji: "😼")
 Reaction.create(cat: c2, location: l2, emoji: "😻")
