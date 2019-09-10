@@ -78,8 +78,10 @@ h1{
     display: block;
     font-size: 1rem;
 }
+
 .reactions > button:hover {
     cursor: pointer;
     transform: scale(1.4);
     
 }
+
