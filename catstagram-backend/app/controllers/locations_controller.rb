@@ -4,7 +4,7 @@ class LocationsController < ApplicationController
     locations = Location.all
     render json: locations.to_json(
       :include => {
-      :reactions => {:only => [:emoji, :cat_id]},
+      :reactions => {:only => [:id, :emoji, :cat_id]},
       },
       :except => [:updated_at, :created_at])
   end
@@ -14,7 +14,7 @@ class LocationsController < ApplicationController
     if location
       render json: location.to_json(
         :include => {
-        :reactions => {:only => [:emoji, :cat_id]},
+        :reactions => {:only => [:id, :emoji, :cat_id]},
         },
         :except => [:updated_at, :created_at])
     else

@@ -62,6 +62,10 @@ h1{
     display: flex;
     justify-content: space-between;
 }
+.reactions > button.done{
+    outline: 3px solid skyblue;
+    background: lightblue;
+}
 .reactions > button {
     background: white;
     width: 3.75rem;
