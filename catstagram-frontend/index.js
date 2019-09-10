@@ -24,15 +24,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 // location.reactions.forEach((react) => {
 
                 // })
+
+                const reactions = location.reactions
+                console.log("reaction object: ", reactions)
+
+                // SMIRK COUNT FOR EACH LOCATION
+                let smirk_reactions = reactions.filter((reaction) => {
+                  return reaction.emoji == "😼"
+                })
+                let smirkReactionCount = smirk_reactions.length
+                console.log("smirks: ", smirkReactionCount)
+
+                // HEART COUNT FOR EACH LOCATION
+                let heart_reactions = reactions.filter((reaction) => {
+                  return reaction.emoji == "😻"
+                })
+                let heartReactionCount = heart_reactions.length
+                console.log("hearts: ", heartReactionCount)
+
+                // POOP COUNT FOR EACH LOCATION
+                let poop_reactions = reactions.filter((reaction) => {
+                  return reaction.emoji == "💩"
+                })
+                let poopReactionCount = poop_reactions.length
+                console.log("poops: ", poopReactionCount)
+
+                // SCARED COUNT FOR EACH LOCATION
+                let scared_reactions = reactions.filter((reaction) => {
+                  return reaction.emoji == "🙀"
+                })
+                let scaredReactionCount = scared_reactions.length
+                console.log("scared: ", scaredReactionCount)
+
+
                 locationContainer.innerHTML += `
                     <div dataset-id=${location.id}>
                         <img src=${location.picture}/>
                         <p>${location.description}</p>
                         <div class="reactions">
-                            <button>😼<span>3</span></button>
-                            <button>😻<span>1</span></button>
-                            <button>💩<span>0</span></button>
-                            <button>🙀<span>0</span></button>
+                            <button>😼<span>${smirkReactionCount}</span></button>
+                            <button>😻<span>${heartReactionCount}</span></button>
+                            <button>💩<span>${poopReactionCount}</span></button>
+                            <button>🙀<span>${scaredReactionCount}</span></button>
                         </div>
                     </div>
                 `
