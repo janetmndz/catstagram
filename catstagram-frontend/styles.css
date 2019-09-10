@@ -9,7 +9,7 @@ section#location-container {
     flex-wrap: wrap;
     align-items: center;
 }
-#location-container>div {
+#location-container > div {
     border: 1px solid blue;
     width: 25%;
     min-width: 300px;
