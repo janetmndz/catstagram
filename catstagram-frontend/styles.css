@@ -1,20 +1,87 @@
+@import url('https://fonts.googleapis.com/css?family=Chilanka&display=swap');
+
+*{
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    text-align: center;
+    font-family: 'Chilanka', cursive;
+    background: #DECCCC;
+}
+.container{
+    padding-top: 1px;
+    width: 90%;
+    margin: 0 auto;
+}
 main{
     display: none;
 }
-section#location-container {
-    border: 1px solid red;
+h1{
+    font-family: 'Chilanka', cursive;
+    font-size: 4.5rem;
+}
+#location-container {
     width: 80%;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: space-between;
 }
 #location-container > div {
-    border: 1px solid blue;
-    width: 25%;
-    min-width: 300px;
-    max-width: 400px;
-    max-height: 450px;
-    min-height: 350px;
-    padding: 10px 25px;
+    background: #FFFFFF;
+    width: 40%;
+    /* min-width: 250px;
+    max-width: 500px; */
+    height: 450px;
+    /* max-height: 450px;
+    min-height: 350px; */
+    padding: 0 15px 25px;
+    margin: 25px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #d1d1d1;
+    box-shadow: 1px 1px 0px #a1a1a1, rgb(194, 194, 194) 1px 1px 0px 0px;
+    border-radius: 5px;
 }
+#location-container > div p{
+    text-align: left;
+    font-size: 1.15rem;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0 15px;
+}
+#location-container > div img {
+    max-width: 50%;
+}
+.reactions{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+.reactions > button {
+    background: white;
+    width: 3.75rem;
+    height: 3.75rem;
+    margin: 0 10px;
+    border: none;
+    font-size: 1.75rem;
+    padding: 0; 
+    transition: all ease 500ms;
+    transform: scale(1);
+    transform-origin: bottom;
+}
+.reactions > button span{
+    display: block;
+    font-size: 1rem;
+}
+
+.reactions > button:hover {
+    cursor: pointer;
+    transform: scale(1.4);
+    
+}
+
