@@ -12,7 +12,7 @@ class ReactionsController < ApplicationController
       render json: reaction.to_json(
         :except => [:updated_at, :created_at])
     else
-      render json: {message: reaction.errors.full_messages }
+      render json: {message: "you messed up" }
     end
   end
 
