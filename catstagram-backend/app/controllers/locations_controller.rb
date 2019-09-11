@@ -24,7 +24,11 @@ class LocationsController < ApplicationController
 
   def create
     location = Location.create(location_params)
-    render json:location
+    render json: location.to_json(
+      :include => {
+        :reactions => {:only => [:id, :emoji, :cat_id]}
+      },
+      :except => [:updated_at, :created_at])
   end
 
   def update

@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         })
     }
-    
+
     //BUTTON TO REVEAL NEW LOCATION FORM
       const newLocationButton = document.createElement("button")
       const newLocationButtonDiv = document.createElement("div")
@@ -120,7 +120,9 @@ document.addEventListener('DOMContentLoaded', () => {
             locationContainer.innerHTML +=
             `
               <div data-id=${newLocation.id}>
-                <img src=${pictureSrcValue}/>
+                <div class="location-picture">
+                  <img src=${pictureSrcValue}/>
+                </div>
                 <p>${descriptionValue}</p>
                 <div class="reactions">
                 ${createButtonElement("😼", newLocation.reactions)}
