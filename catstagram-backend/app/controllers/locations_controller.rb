@@ -18,13 +18,17 @@ class LocationsController < ApplicationController
         },
         :except => [:updated_at, :created_at])
     else
-      render json:  {message:  location.errors.full_messages }
+      render json:  {message: "Location not found" }
     end
   end
 
   def create
     location = Location.create(location_params)
-    render json:location
+    render json: location.to_json(
+      :include => {
+        :reactions => {:only => [:id, :emoji, :cat_id]}
+      },
+      :except => [:updated_at, :created_at])
   end
 
   def update
