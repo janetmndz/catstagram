@@ -22,26 +22,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // !This makes a fetch request to the server to get all the locations....
   function getAllLocations() {
-    fetch('http://localhost:3000/locations').then(resp => resp.json()).then(locations => {
-      locations.forEach((location) => {
-        // !adds the HTML to the location container for each location
-        // !also filters calls the createButtonElement function to create the buttons
-        locationContainer.innerHTML +=
-        `
-          <div data-id=${location.id}>
-            <img src=${location.picture}/>
-            <p>${location.description}</p>
-            <div class="reactions">
-              ${createButtonElement("😼", location.reactions)}
-              ${createButtonElement("😻", location.reactions)}
-              ${createButtonElement("💩", location.reactions)}
-              ${createButtonElement("🙀", location.reactions)}
-            </div>
-          </div>
-        `
+      fetch('http://localhost:3000/locations').then(resp => resp.json()).then(locations => {
+          locations.forEach((location) => {
+              // !addes the HTML to the location container for each location
+              // !also filters calls the createButtonElement function to create the buttons
+              locationContainer.innerHTML += `
+                  <div data-id=${location.id}>
+                      <div class="location-picture">
+                          <img src=${location.picture}/>
+                      </div>
+                      <p>${location.description}</p>
+                      <div class="reactions">
+                          ${createButtonElement("😼", location.reactions)}
+                          ${createButtonElement("😻", location.reactions)}
+                          ${createButtonElement("💩", location.reactions)}
+                          ${createButtonElement("🙀", location.reactions)}
+                      </div>
+                  </div>
+              `
+          })
       })
-    })
-  }
+    }
 
 
   //BUTTON TO REVEAL NEW LOCATION FORM
@@ -96,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.target.parentNode.reset()
       console.log(pictureSrcValue);
       console.log(descriptionValue);
+
 
       // ADDING NEW LOCATION TO BACKEND
       config = {
@@ -164,6 +166,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     fetch(`http://localhost:3000/reactions/${reactionId}`, config)
   }
+  
+  function updatingLocationForm(e){
+    e.preventDefault()
+
+    locationBeingUpdated = parseInt(e.target.dataset.locationId)
+    updatedDescription = e.target.description.value
+    config = {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "description": updatedDescription
+        })
+    }
+
+    fetch(`http://localhost:3000/locations/${locationBeingUpdated}`,config).then(resp => resp.json()).then(location => {
+        singleLocationContainer.querySelector('#edit-location-form').style.display = "none"
+
+        let overlayDescription = singleLocationContainer.querySelector('#description')
+        overlayDescription.style.display = "block"
+        overlayDescription.innerText = location.description
+        singleLocationContainer.querySelector('.edit-location-button').style.display = "inline-block"
+        let mainDiv = locationContainer.querySelector(`div[data-id = "${location.id}"] p`)
+        mainDiv.innerText = location.description
+    })
+}
 
   // !This handles the submit for the initial login form
   loginForm.addEventListener('submit', (e) => {
@@ -225,18 +254,17 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
-    // !If the targeted element is the image tag...
-    else if (e.target.tagName == "IMG") {
-      const singleLocationId = e.target.parentElement.dataset.id
-      fetch(`http://localhost:3000/locations/${singleLocationId}`).then(resp => resp.json()).then(location => {
-        console.log(location)
-        singleLocationContainer.style.transform = "translateY(0)"
-        singleLocationContainer.innerHTML = `
-                <div class="single-location" data-id=${location.id}>
+        // !If the targeted element is the image tag...
+        else if (e.target.tagName == "IMG") {
+            //debugger
+            const singleLocationId = e.target.parentElement.parentElement.dataset.id
+            fetch(`http://localhost:3000/locations/${singleLocationId}`).then(resp => resp.json()).then(location => {
+                singleLocationContainer.style.transform = "translateY(0)"
+                singleLocationContainer.innerHTML = `
+                <div class="single-location">
                     <div class="location-photo"><img src="${location.picture}"/></div>
                     <div class="location-description">
-                        <p>${location.description}</p>
-                        ${location.cat_id === parseInt(catId) ? `<button>Edit</buton>` : ``}
+                        <p id="description">${location.description}</p>
                     </div>
                     <div class="location-reactions">
                         ${createButtonElement("😼", location.reactions)}
@@ -245,13 +273,35 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${createButtonElement("🙀", location.reactions)}
                     </div>
                 </div>`
-        singleLocationContainer.addEventListener("click", (e) => {
-          if (e.target.id === "single-location-container") {
-            singleLocationContainer.style.transform = "translateY(-100%)"
-            singleLocationContainer.innerHTML = ``
-          }
-        })
-      })
-    }
-  })
+
+                if ( location.cat_id === parseInt(catId) ){
+                    singleLocationContainer.querySelector('.location-description').innerHTML += `
+                        <form id="edit-location-form" data-location-id="${location.id}">
+                            <label>Add Your Changes</label>
+                            <input name="description" type="text" value="${location.description}"/> 
+                            <button>Update Description</button>
+                        </form>
+                        <button class="edit-location-button">Edit</buton>`
+                    //! This adds an event listener on the form AFTER it is being added to the DOM
+                    singleLocationContainer.querySelector('#edit-location-form').addEventListener('submit', (e) => updatingLocationForm(e))
+                }
+
+                singleLocationContainer.addEventListener("click", (e) => {
+                    if (e.target.id === "single-location-container") {
+                        singleLocationContainer.style.transform = "translateY(-100%)"
+                        singleLocationContainer.innerHTML = ``
+                    }
+                    else if(e.target.classList.contains('edit-location-button')){
+                        e.preventDefault()
+                        let editLocationForm = singleLocationContainer.querySelector('#edit-location-form')
+                        let decriptionParagraph = singleLocationContainer.querySelector('#description')
+                        console.log("Edit button is being clicked!")
+                        e.target.style.display = "none"
+                        decriptionParagraph.style.display = "none"
+                        editLocationForm.style.display = "flex"
+                    }
+                })
+            })
+        }
+    })
 })
