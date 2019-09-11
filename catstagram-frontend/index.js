@@ -5,58 +5,27 @@ document.addEventListener('DOMContentLoaded', () => {
     mainContent = document.querySelector('main')
     welcomeMessage = document.querySelector('#welcome-message')
     locationContainer = document.querySelector('#location-container')
+    singleLocationContainer = document.querySelector('#single-location-container')
+
     console.log("YAY! Everything loaded!")
+    // !This is out first GET request to the server to get all the cats avaliable to login as
     fetch('http://localhost:3000/cats')
     .then(resp => resp.json())
     .then(loginCat)
 
+    // !This gets the array of cat objects from the fetch request and adds them as options to the select HTML menu
     function loginCat(arrofCats) {
         arrofCats.forEach((cat) => {
             logincatselect.innerHTML += `<option value="${cat.id}" data-cat-name=${cat.name}>${cat.name}</option>`
-        }
-        )
+        })
     }
+
+    // !This makes a fetch request to the server to get all the locations....
     function getAllLocations() {
         fetch('http://localhost:3000/locations').then(resp => resp.json()).then(locations => {
             locations.forEach((location) => {
-                // const locationDiv = document.createElement('div')
-                // locationDiv.classList.add = "reactions"
-                // location.reactions.forEach((react) => {
-
-                // })
-
-                const reactions = location.reactions
-                ////console.log("reaction object: ", reactions)
-
-                // SMIRK COUNT FOR EACH LOCATION
-                let smirk_reactions = reactions.filter((reaction) => {
-                  return reaction.emoji == "😼"
-                })
-                let smirkReactionCount = smirk_reactions.length
-                ////console.log("smirks: ", smirkReactionCount)
-
-                // HEART COUNT FOR EACH LOCATION
-                let heart_reactions = reactions.filter((reaction) => {
-                  return reaction.emoji == "😻"
-                })
-                let heartReactionCount = heart_reactions.length
-                /////console.log("hearts: ", heartReactionCount)
-
-                // POOP COUNT FOR EACH LOCATION
-                let poop_reactions = reactions.filter((reaction) => {
-                  return reaction.emoji == "💩"
-                })
-                let poopReactionCount = poop_reactions.length
-                /////console.log("poops: ", poopReactionCount)
-
-                // SCARED COUNT FOR EACH LOCATION
-                let scared_reactions = reactions.filter((reaction) => {
-                  return reaction.emoji == "🙀"
-                })
-                let scaredReactionCount = scared_reactions.length
-                /////console.log("scared: ", scaredReactionCount)
-
-
+                // !addes the HTML to the location container for each location
+                // !also filters calls the createButtonElement function to create the buttons
                 locationContainer.innerHTML += `
                     <div data-id=${location.id}>
                         <img src=${location.picture}/>
@@ -69,24 +38,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                 `
-                //<button class="${reactionExists(location.reactions, "😼")}">😼<span data-count=${smirkReactionCount}>${smirkReactionCount}</span></button>
-                // <button class="${reactionExists(location.reactions, "😻")}">😻<span data-count=${heartReactionCount}>${heartReactionCount}</span></button>
-                //<button class="${reactionExists(location.reactions, "💩")}">💩<span data-count=${poopReactionCount}>${poopReactionCount}</span></button>
-                //<button class="${reactionExists(location.reactions, "🙀")}">🙀<span data-count=${scaredReactionCount}>${scaredReactionCount}</span></button>
             })
         })
     }
+    // !This handles creating a button element with the correct data
     function createButtonElement(catEmj,reactions) {
         // !This is setting up the filter for ALL the reactions on a location
-        let allEmojiReactions = reactions.filter((reaction) => {
-            return reaction.emoji == catEmj
-        })
+        let allEmojiReactions = reactions.filter((reaction) => { return reaction.emoji == catEmj })
         let allEmojiReactionsCount = allEmojiReactions.length
-
 
         // !This is seeting up reactions that pertain to the CURRENT cat
         let results = reactions.filter((reaction) => { return reaction.cat_id === parseInt(catId) && reaction.emoji === catEmj })
 
+        // !Returns the corresponding data for each button
         return ` 
         <button 
         class="${results.length > 0 ? `done reaction-button` : `reaction-button`}" 
@@ -94,27 +58,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             ${catEmj}<span data-count=${allEmojiReactionsCount}>${allEmojiReactionsCount}</span>
 
-        </button>
-        `
-    }
-
-    function reactionExists(reactions, emj) {
-        let results = reactions.filter((reaction) => {return reaction.cat_id === parseInt(catId) && reaction.emoji === emj})
-        //console.log(reactions, results.length)
-        //console.log(results[0] ? results[0].id : "none")
-        return results.length > 0 ? `done reaction-button` : `reaction-button` 
+        </button>`
     }
 
     function deleteReaction(reactionId) {
-        console.log(reactionId)
         const config = {
             method: "DELETE"
         }
-        fetch(`http://localhost:3000/reactions/${reactionId}`, config).then(resp => resp.json()).then((t) => {
-            getAllLocations()
-        })
+        fetch(`http://localhost:3000/reactions/${reactionId}`, config)
     }
 
+    // !This handles the submit for the initial login form
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault()
         const catName = e.target.cat.selectedOptions[0].innerText
@@ -122,33 +76,39 @@ document.addEventListener('DOMContentLoaded', () => {
         loginForm.style.display = "none"
         mainContent.style.display = "block"
         welcomeMessage.innerText = `Hello Fellow Feline Friend ${catName}! 😼`
+        
+        // !Calls the function to get all the locations
         getAllLocations()
     })
 
-    // Delegation only recognized on <button> not <span> within <button>
+    // ?Delegation only recognized on <button> not <span> within <button>
+    // !This adds an event listener on the locations container
     locationContainer.addEventListener("click", (e) => {
+        // !If the targeted element (button) is a reaction-button...
         if (e.target.classList.contains("reaction-button")) {
             const reactionSpan = e.target.childNodes[1]
             let spanDataSetCount = reactionSpan.dataset.count
             let reactionCount = parseInt(spanDataSetCount)
-
-            if (e.target.classList.contains("done")){
+            //! but! if it also has a DONE class
+            if (e.target.classList.contains("done")) {
                 const reactionId = parseInt(e.target.dataset.reactionId)
                 e.target.removeAttribute("data-reaction-id")
                 e.target.classList.remove("done")
-                reactionCount--
-                spanDataSetCount = reactionCount
+                reactionCount -= 1
+                reactionSpan.dataset.count = reactionCount
                 reactionSpan.innerText = reactionCount
+                //! We delete the reaction
                 deleteReaction(reactionId)
                 return
             }
-            reactionCount++
-            spanDataSetCount = reactionCount
+            //debugger
+            // !Else, we make a post request and create a new reaction
+            reactionCount += 1
+            reactionSpan.dataset.count = reactionCount
             reactionSpan.innerText = reactionCount
             e.target.classList.add("done")
             const locationId = e.target.parentElement.parentElement.dataset.id
             const selectedEmoji = e.target.childNodes[0].textContent.trim()
-
             const config = {
                 method: "POST",
                 headers: {
@@ -160,11 +120,41 @@ document.addEventListener('DOMContentLoaded', () => {
                     "emoji": selectedEmoji
                 })
             }
-            console.log(config)
-            fetch('http://localhost:3000/reactions', config).then(resp => resp.json()).then(data => {
-                e.target.dataset.reactionId = data.id
+
+            fetch('http://localhost:3000/reactions', config)
+            .then(resp => resp.json())
+            .then(data => { 
+                e.target.dataset.reactionId = data.id 
+            })
+        }
+
+        // !If the targeted element is the image tag...
+        else if (e.target.tagName == "IMG") {
+            const singleLocationId = e.target.parentElement.dataset.id
+            fetch(`http://localhost:3000/locations/${singleLocationId}`).then(resp => resp.json()).then(location => {
+                console.log(location)
+                singleLocationContainer.style.transform = "translateY(0)"
+                singleLocationContainer.innerHTML = `
+                <div class="single-location" data-id=${location.id}>
+                    <div class="location-photo"><img src="${location.picture}"/></div>
+                    <div class="location-description">
+                        <p>${location.description}</p>
+                        ${location.cat_id === parseInt(catId) ? `<button>Edit</buton>` : ``}
+                    </div>
+                    <div class="location-reactions">
+                        ${createButtonElement("😼", location.reactions)}
+                        ${createButtonElement("😻", location.reactions)}
+                        ${createButtonElement("💩", location.reactions)}
+                        ${createButtonElement("🙀", location.reactions)}
+                    </div>
+                </div>`
+                singleLocationContainer.addEventListener("click", (e) => {
+                    if (e.target.id === "single-location-container") {
+                        singleLocationContainer.style.transform = "translateY(-100%)"
+                        singleLocationContainer.innerHTML = ``
+                    }
+                })
             })
         }
     })
-
 })
