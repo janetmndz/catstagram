@@ -62,13 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function deleteReaction(reactionId) {
-        console.log(reactionId)
         const config = {
             method: "DELETE"
         }
-        fetch(`http://localhost:3000/reactions/${reactionId}`, config).then(resp => resp.json()).then((t) => {
-            getAllLocations()
-        })
+        fetch(`http://localhost:3000/reactions/${reactionId}`, config)
     }
 
     // !This handles the submit for the initial login form
@@ -79,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loginForm.style.display = "none"
         mainContent.style.display = "block"
         welcomeMessage.innerText = `Hello Fellow Feline Friend ${catName}! 😼`
+        
         // !Calls the function to get all the locations
         getAllLocations()
     })
@@ -96,17 +94,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 const reactionId = parseInt(e.target.dataset.reactionId)
                 e.target.removeAttribute("data-reaction-id")
                 e.target.classList.remove("done")
-                reactionCount--
-                spanDataSetCount = reactionCount
+                reactionCount -= 1
+                reactionSpan.dataset.count = reactionCount
                 reactionSpan.innerText = reactionCount
                 //! We delete the reaction
                 deleteReaction(reactionId)
                 return
             }
-
+            //debugger
             // !Else, we make a post request and create a new reaction
-            reactionCount++
-            spanDataSetCount = reactionCount
+            reactionCount += 1
+            reactionSpan.dataset.count = reactionCount
             reactionSpan.innerText = reactionCount
             e.target.classList.add("done")
             const locationId = e.target.parentElement.parentElement.dataset.id
@@ -125,7 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             fetch('http://localhost:3000/reactions', config)
             .then(resp => resp.json())
-            .then(data => { e.target.dataset.reactionId = data.id })
+            .then(data => { 
+                e.target.dataset.reactionId = data.id 
+            })
         }
 
         // !If the targeted element is the image tag...
