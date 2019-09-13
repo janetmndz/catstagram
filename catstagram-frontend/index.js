@@ -51,27 +51,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
       newLocationButton.innerText = "add dat new spot"
       newLocationButton.classList.add("new-btn")
+      newLocationButton.classList.add("button-styles")
       newLocationButtonDiv.appendChild(newLocationButton)
 
       locationContainer.appendChild(newLocationButtonDiv)
 
       //NEW LOCATION FORM
       const newLocationForm = document.createElement("form")
-      const newLocationLabel = document.createElement("label")
-      newLocationLabel.innerText = "Add the details for your new location's below:"
+      const newLocationHeading = document.createElement("h3")
+      newLocationHeading.innerText = "Add the details for your new location's below:"
       newLocationForm.id = "new-location-form"
       newLocationForm.hidden = true
 
+      const newLocationPictureLabel = document.createElement("label")
+      newLocationPictureLabel.setAttribute("for", "newLocationPicture")
+      newLocationPictureLabel.innerText = "Picture URL"
       const newLocationPicture = document.createElement("input")
+      newLocationPicture.setAttribute("type", "text")
+      newLocationPicture.id = "newLocationPicture"
       newLocationPicture.placeholder = "picture link..."
+      const newLocationDecriptionLabel = document.createElement("label")
+      newLocationDecriptionLabel.setAttribute("for", "newLocationDescription")
+      newLocationDecriptionLabel.innerText = "Description"
       const newLocationDescription = document.createElement("input")
+      newLocationDescription.setAttribute("type", "text")
+      newLocationDescription.id = "newLocationDescription"
       newLocationDescription.placeholder = "description..."
       const createLocationButton = document.createElement("button")
       createLocationButton.innerText = "Add Location"
+      createLocationButton.classList.add('button-styles')
       createLocationButton.id = "add-location-btn"
 
-      newLocationForm.appendChild(newLocationLabel)
+      newLocationForm.appendChild(newLocationHeading)
+      newLocationForm.appendChild(newLocationPictureLabel)
       newLocationForm.appendChild(newLocationPicture)
+      newLocationForm.appendChild(newLocationDecriptionLabel)
       newLocationForm.appendChild(newLocationDescription)
       newLocationForm.appendChild(createLocationButton)
 
@@ -90,9 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // DELEGATION TO ADD LOCATION BUTTON
         if (e.target.id === "add-location-btn") {
           e.preventDefault()
-          // console.log(e.target.parentNode.childNodes)
-          const pictureSrcValue = e.target.parentNode.childNodes[1].value
-          const descriptionValue = e.target.parentNode.childNodes[2].value
+          const pictureSrcValue = e.target.parentNode.childNodes[2].value
+          const descriptionValue = e.target.parentNode.childNodes[4].value
+          if(!!!pictureSrcValue && !!!descriptionValue){
+              alert("You have not filled out the required information!!")
+              return
+          }
           e.target.parentNode.reset()
           console.log(pictureSrcValue);
           console.log(descriptionValue);
@@ -196,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
         catId = e.target.cat.value
         loginForm.style.display = "none"
         mainContent.style.display = "block"
-        welcomeMessage.innerText = `Hello Fellow Feline Friend ${catName}! 😼`
+        welcomeMessage.innerHTML = `Hewwo Fellow Feline Friend <span>${catName}!</span>`
 
         // !Calls the function to get all the locations
         getAllLocations()
@@ -274,10 +291,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         <form id="edit-location-form" data-location-id="${location.id}">
                             <label>Add Your Changes</label>
                             <input name="description" type="text" value="${location.description}"/>
-                            <button>Update Description</button>
+                            <button class="button-styles">Update Description</button>
                         </form>
-                        <button class="edit-location-button">Edit</buton>`
-                    //! This adds an event listener on the form AFTER it is being added to the DOM
+                        <button class="edit-location-button button-styles">Edit</buton>`
+                    // !This adds an event listener on the form AFTER it is being added to the DOM
                     singleLocationContainer.querySelector('#edit-location-form').addEventListener('submit', (e) => updatingLocationForm(e))
                 }
 
@@ -299,4 +316,8 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         }
     })
+    document.addEventListener("mousemove", e => {
+        document.documentElement.style.setProperty("--mouse-x", e.clientX + 'px');
+        document.documentElement.style.setProperty("--mouse-y", e.clientY + 'px');
+    });
 })

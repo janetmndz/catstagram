@@ -2,6 +2,7 @@
 
 *{
     box-sizing: border-box;
+    cursor: none;
 }
 body{
     margin: 0;
@@ -21,6 +22,58 @@ h1{
     font-family: 'Chilanka', cursive;
     font-size: 4.5rem;
 }
+/* This is for the Login selection */
+#login-form{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+    margin: 0 auto;
+    width: 50%;
+    margin: 0 auto;
+    border: 1px solid black;
+    padding: 25px;
+    background: white;
+    border-radius: 6px;
+}
+#login-form #login-label{
+    font-size: 2rem;
+    line-height: 2;
+}
+#login-form > #login-cats{
+    border: 1px solid orange;
+    width: 25vmin;
+    height: 10vmin;
+    font-size: 1.03rem;
+    text-indent: 3vmin;
+    font-family: 'Chilanka', cursive;
+    margin: 15px 0;
+}
+#login-form > button{
+    width: 25vmin;
+    /* padding: 15px;
+    font-size: 1.15rem;
+    font-family: 'Chilanka', cursive;
+    border: 1px solid orange;
+    border-radius: 15px; */
+}
+/*--------------------------------*/
+/* This is header banner stuff */
+h2#welcome-message{
+    display: inline-block;
+    background: #FFB045;
+    padding: 15px;
+    border: 3px solid #FFCA83;
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+    line-height: 2;
+}
+h2#welcome-message span {
+    font-weight: bold;
+    color: #FDFFFC;
+}
+/* ----------- */
 #location-container {
     width: 80%;
     margin: 0 auto;
@@ -50,6 +103,7 @@ h1{
   font-family: 'Chilanka', cursive;
   font-size: 1.15rem;
   padding: 7.5% 5% 5% 5%;
+  width: 80%;
 }
 
 #location-container > div {
@@ -89,7 +143,7 @@ h1{
     width: 100%;
 }
 .reactions{
-    width: 80%;
+    width: 85%;
     display: flex;
     justify-content: space-between;
 }
@@ -97,8 +151,8 @@ h1{
     background: white;
     width: 3.75rem;
     height: 3.75rem;
-    margin: 0 10px;
-    border: none;
+    border: 2px solid #acacac;
+    border-radius: 5px;
     font-size: 1.75rem;
     padding: 0;
     transition: all ease 500ms;
@@ -112,14 +166,15 @@ h1{
 
 .reactions > button:hover {
     cursor: pointer;
-    transform: scale(1.4);
+    transform: scale(1.35);
 
 }
 .reactions > button.done {
-    border: 3px solid skyblue;
-    background: lightblue;
+    border: 3px solid #7DB9ED;
+    background: #A7CCED;
+    border-radius: 5px;
 }
-
+/* This is all for the overlay */
 #single-location-container{
     display: block;
     background: rgba(243,236,2536,0.8);
@@ -167,6 +222,9 @@ h1{
 .single-location > .location-description{
     grid-area: description;
     background-color: #EFEFEF;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
     overflow-y: scroll;
 }
 .single-location > .location-description p{
@@ -175,6 +233,10 @@ h1{
     font-size: 1.15rem;
     padding: 15px;
     margin: 0;
+}
+.single-location > .location-description .edit-location-button{
+    width: 25%;
+    margin-bottom: 15px;
 }
 .single-location > .location-reactions{
     grid-area: reactions;
@@ -200,6 +262,80 @@ h1{
 #edit-location-form{
     display: none;
     flex-direction: column;
+    align-items: center;
     width: 100%;
     height: 100%;
 }
+#edit-location-form label{
+    font-size: 1.15rem;
+}
+#edit-location-form button{
+    width: 50%;
+}
+/*-----------------*/
+/*This is for the cat paw action*/
+:root {
+    --mouse-x: calc(50vw + 1px);
+    --mouse-y: calc(50vh + 1px);
+}
+
+.mouse-tracker {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 5vmin;
+    height: 7vmin;
+    background: rgba(240, 182, 127, 0.9);
+    border: solid 2px #000;
+    border-bottom: none;
+    border-radius: 50% 50% 0 0;
+    /* opacity: 0.8; */
+    transform: translate(-50%, 10%) translate(var(--mouse-x), var(--mouse-y));
+    pointer-events: none;
+    cursor: none;
+}
+
+.mouse-tracker svg {
+    margin: 0.25vmin 0.5vmin;
+}
+
+.mouse-tracker svg path {
+    fill: hotpink;
+}
+/*-----------------------*/
+/* It's at the bottom because I want them to always persist*/
+/*--*/
+/* This is for the class button styles*/
+.button-styles{
+    padding: 15px;
+    font-size: 1.15rem;
+    font-family: 'Chilanka', cursive;
+    border: 1px solid #E59957;
+    border-radius: 15px;
+    background: #FCB97D;
+    box-shadow: 0 4px #E6A972;
+}
+.button-styles:hover, .button-styles:focus{
+    transform: translateY(2px);
+    box-shadow: 0 2px #E6A972;
+}
+.button-styles:active{
+    transform: translateY(4px);
+    box-shadow: 0 0 #E6A972;
+}
+/*This is for all thr forms */
+input{
+    width: 90%;
+    height: 3rem;
+    margin: 0.5rem auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1.03rem;
+    line-height: 1.5;
+    padding: 0px 10px;
+}
+form label{
+    line-height: 2;
+    padding: 5px 0;
+}
+/*---------------------------------------*/
