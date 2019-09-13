@@ -2,6 +2,7 @@
 
 *{
     box-sizing: border-box;
+    cursor: none;
 }
 body{
     margin: 0;
@@ -142,7 +143,7 @@ h2#welcome-message span {
     width: 100%;
 }
 .reactions{
-    width: 80%;
+    width: 85%;
     display: flex;
     justify-content: space-between;
 }
@@ -150,8 +151,8 @@ h2#welcome-message span {
     background: white;
     width: 3.75rem;
     height: 3.75rem;
-    margin: 0 10px;
-    border: none;
+    border: 2px solid #acacac;
+    border-radius: 5px;
     font-size: 1.75rem;
     padding: 0;
     transition: all ease 500ms;
@@ -165,12 +166,13 @@ h2#welcome-message span {
 
 .reactions > button:hover {
     cursor: pointer;
-    transform: scale(1.4);
+    transform: scale(1.35);
 
 }
 .reactions > button.done {
-    border: 3px solid skyblue;
-    background: lightblue;
+    border: 3px solid #7DB9ED;
+    background: #A7CCED;
+    border-radius: 5px;
 }
 /* This is all for the overlay */
 #single-location-container{

@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       newLocationButton.innerText = "add dat new spot"
       newLocationButton.classList.add("new-btn")
-    newLocationButton.classList.add("button-styles")
+      newLocationButton.classList.add("button-styles")
       newLocationButtonDiv.appendChild(newLocationButton)
 
       locationContainer.appendChild(newLocationButtonDiv)
@@ -64,12 +64,18 @@ document.addEventListener('DOMContentLoaded', () => {
       newLocationForm.hidden = true
 
       const newLocationPictureLabel = document.createElement("label")
+      newLocationPictureLabel.setAttribute("for", "newLocationPicture")
       newLocationPictureLabel.innerText = "Picture URL"
       const newLocationPicture = document.createElement("input")
+      newLocationPicture.setAttribute("type", "text")
+      newLocationPicture.id = "newLocationPicture"
       newLocationPicture.placeholder = "picture link..."
       const newLocationDecriptionLabel = document.createElement("label")
+      newLocationDecriptionLabel.setAttribute("for", "newLocationDescription")
       newLocationDecriptionLabel.innerText = "Description"
       const newLocationDescription = document.createElement("input")
+      newLocationDescription.setAttribute("type", "text")
+      newLocationDescription.id = "newLocationDescription"
       newLocationDescription.placeholder = "description..."
       const createLocationButton = document.createElement("button")
       createLocationButton.innerText = "Add Location"
@@ -98,9 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // DELEGATION TO ADD LOCATION BUTTON
         if (e.target.id === "add-location-btn") {
           e.preventDefault()
-          // console.log(e.target.parentNode.childNodes)
-          const pictureSrcValue = e.target.parentNode.childNodes[1].value
-          const descriptionValue = e.target.parentNode.childNodes[2].value
+          const pictureSrcValue = e.target.parentNode.childNodes[2].value
+          const descriptionValue = e.target.parentNode.childNodes[4].value
+          if(!!!pictureSrcValue && !!!descriptionValue){
+              alert("You have not filled out the required information!!")
+              return
+          }
           e.target.parentNode.reset()
           console.log(pictureSrcValue);
           console.log(descriptionValue);
